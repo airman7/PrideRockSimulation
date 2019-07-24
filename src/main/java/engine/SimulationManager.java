@@ -2,11 +2,13 @@ package engine;
 
 import java.util.HashMap;
 import java.util.Map;
+import engine.util.Time;
 
-public class SimulationManager implements Runnable {
+public class SimulationManager {
     private Map<SimulationOption, Integer> options;
     static SimulationManager instance;
     private Thread mainThread;
+    private Time timer;
 
     private SimulationManager() {
         options = new HashMap<SimulationOption, Integer>();
@@ -16,9 +18,7 @@ public class SimulationManager implements Runnable {
     }
 
     public static void init() {
-        if (instance == null) {
-            instance = new SimulationManager();
-        }
+        instance = new SimulationManager();
     }
 
     public static void start() {
@@ -30,12 +30,12 @@ public class SimulationManager implements Runnable {
     }
 
     private void startThread() {
-        mainThread = new Thread(this);
+        mainThread = new Thread(() -> {
+             timer = new Time(options.get(SimulationOption.TICKS_PER_SECOND), delaTime -> {
+                System.out.println("Time between frames: " + delaTime + " seconds");
+            });
+            timer.start();
+        });
         mainThread.run();
-    }
-
-    @Override
-    public void run() {
-
     }
 }
