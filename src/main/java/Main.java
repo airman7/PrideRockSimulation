@@ -1,5 +1,10 @@
+import engine.SimulationManager;
+import engine.SimulationOption;
+
 public class Main {
     public static void main(String[] args) {
-        System.out.print("Hello World");
+        SimulationManager.init();
+        SimulationManager.setOption(SimulationOption.TICKS_PER_SECOND, 100);
+        SimulationManager.start();
     }
 }
