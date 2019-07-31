@@ -5,5 +5,3 @@ cat <<EOF > tmp.sh
 java -jar $1
 EOF
 chmod +x tmp.sh ; open -a Terminal tmp.sh ;
-
-

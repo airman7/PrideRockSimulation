@@ -3,9 +3,12 @@ package engine.world;
 import static engine.world.TileType.*;
 import java.util.ArrayList;
 import java.util.List;
-import engine.entity.impl.BaseAnimal;
+import engine.Util;
+import engine.entity.animal.BaseAnimal;
 import engine.entity.Entity;
-import engine.entity.impl.BaseAI;
+import engine.entity.Behaviour.impl.BaseAI;
+import engine.entity.enums.Attribute;
+import engine.error.AnimalAttributeNotFound;
 import engine.util.Vector2;
 
 public class World {
@@ -27,11 +30,11 @@ public class World {
     Map.setTiles(worldMap);
     Map.setMaxTileSize(size);
     this.size = size;
-    BaseAnimal animal = BaseAnimal.builder()
-        .position(new Vector2(0,0))
-        .ai(new BaseAI())
-        .senseRange(4)
-        .build();
+    BaseAnimal animal = new BaseAnimal(new BaseAI());
+    animal.setAttribute(Attribute.POSITION_X, 0)
+        .setAttribute(Attribute.POSITION_Y, 0)
+        .setAttribute(Attribute.SENSE_RANGE, 3)
+        .setAttribute(Attribute.SPEED, 2);
     entityList = new ArrayList<Entity>();
     entityList.add(animal);
   }
@@ -47,8 +50,8 @@ public class World {
 
   public boolean move(Entity entity, Vector2 position) {
     if(validatePosition(position) && Map.getTiles()[position.x][position.y].getEntity() == null) {
-      Map.getTiles()[position.x][position.y].setEntity(entity);
       Map.getTiles()[entity.getPosition().x][entity.getPosition().y].setEntity(null);
+      Map.getTiles()[position.x][position.y].setEntity(entity);
       entity.updatePosition(position);
       return true;
     }
@@ -61,7 +64,10 @@ public class World {
 
   public void update() {
     for(Entity e: entityList) {
+      Util.clearScreen();
       e.update();
+      printWorld(new Vector2(0,0), new Vector2(size - 1, size - 1));
     }
   }
+
 }

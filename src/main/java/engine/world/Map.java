@@ -6,6 +6,8 @@ import static engine.world.TileType.ROCK;
 import static engine.world.TileType.TREE;
 import static engine.world.TileType.WATER;
 import java.util.Vector;
+import engine.Util;
+import engine.entity.Entity;
 import engine.util.Vector2;
 
 public class Map {
@@ -16,9 +18,7 @@ public class Map {
   int localMapSize;
 
   public static void setTiles(Tile[][] tiles) {
-    System.out.println("SETTING TILES");
     Map.tiles = tiles;
-    printWorld(new Vector2(0,0), new Vector2(tiles.length, tiles.length));
   }
 
   public static void setMaxTileSize(int maxTileSize) {
@@ -34,27 +34,31 @@ public class Map {
   }
 
   public static void printWorld(Vector2 startTile, Vector2 endTile) {
-    System.out.println("Printing " + startTile + " End tile " + endTile);
-    for(int j = startTile.y; j < endTile.y; j++) {
+     for(int j = startTile.y; j < endTile.y; j++) {
       for (int i = startTile.x; i < endTile.x; i++) {
-        switch (tiles[i][j].tileType) {
-          case GRASS:
-            System.out.print("G");
-            break;
-          case GROUND:
-            System.out.print("B");
-            break;
-          case WATER:
-            System.out.print("W");
-            break;
-          case TREE:
-            System.out.print("T");
-            break;
-          case ROCK:
-            System.out.print("R");
-            break;
-          default:
-            System.out.print("0");
+        Entity e = tiles[i][j].getEntity();
+        if(e != null) {
+          Util.colorPrint(Util.ANSI_RED,"@");
+        } else {
+          switch (tiles[i][j].tileType) {
+            case GRASS:
+              Util.colorPrint(Util.ANSI_GREEN, "G");
+              break;
+            case GROUND:
+              Util.colorPrint(Util.ANSI_GREEN, "B");
+              break;
+            case WATER:
+              Util.colorPrint(Util.ANSI_GREEN, "W");
+              break;
+            case TREE:
+              Util.colorPrint(Util.ANSI_GREEN, "T");
+              break;
+            case ROCK:
+              Util.colorPrint(Util.ANSI_GREEN, "R");
+              break;
+            default:
+              Util.colorPrint(Util.ANSI_GREEN, "0");
+          }
         }
         System.out.print(" ");
       }

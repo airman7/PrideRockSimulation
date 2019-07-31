@@ -1,4 +1,4 @@
-package engine.entity;
+package engine.entity.enums;
 
 public enum Diet {
   HERBIVORE,
