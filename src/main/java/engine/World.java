@@ -9,4 +9,16 @@ public class World {
   int width;
   List<Tile> map;
   List<Entity> entities;
+
+  public void addEntity(Entity e) {
+    entities.add(e);
+  }
+
+  public void removeEntity(Entity e) {
+
+  }
+
+  public void moveToTarget(Entity e, int x, int y) {
+
+  }
 }
